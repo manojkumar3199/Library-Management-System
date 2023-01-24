@@ -80,6 +80,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<finalName>MyApp</finalName>
 				</configuration>
 			</plugin>
 			<plugin>
