@@ -8,3 +8,6 @@ This is a library management system restful api that I created to use as an exam
 
 # Live Site 🌐
 [https://libraray-management-system.com/ap1/v1/student](https://library-management-system-g6oa.onrender.com/api/v1/student)
+
+# About
+This system helps library manager to manage, organize, and keep constant track of all the books available in the library and also manage students that have issued them.
