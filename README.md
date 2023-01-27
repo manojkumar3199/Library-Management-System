@@ -14,6 +14,8 @@ This system helps library manager to manage, organize, and keep constant track o
 
 # How to use it
 
+1. [Update book category](#Update-book-category)
+
 ## Add new book category
 
 ### Request
@@ -21,7 +23,7 @@ This system helps library manager to manage, organize, and keep constant track o
 ```
 https://library-management-system-g6oa.onrender.com/api/v1/category
 ```
-`body`
+`JSON`
 ```
 {
 	"categoryName": "computer science",
@@ -58,7 +60,7 @@ https://library-management-system-g6oa.onrender.com/api/v1/category/1
 ```
 https://library-management-system-g6oa.onrender.com/api/v1/category/1
 ```
-`body`
+`JSON`
 ```
 {
 	"categoryName": "computer science",
@@ -98,7 +100,7 @@ https://library-management-system-g6oa.onrender.com/api/v1/category
 ```
 https://library-management-system-g6oa.onrender.com/api/v1/book/category/1
 ```
-`body`
+`JSON`
 ```
 {
 	"title": "Head first java",
@@ -151,7 +153,7 @@ https://library-management-system-g6oa.onrender.com/api/v1/book/1
 ```
 https://library-management-system-g6oa.onrender.com/api/v1/book/1/category/1
 ```
-`body`
+`JSON`
 ```
 {
 	"title": "Head first java",
@@ -207,6 +209,17 @@ https://library-management-system-g6oa.onrender.com/api/v1/book
 ```
 https://library-management-system-g6oa.onrender.com/api/v1/student
 ```
+`JSON`
+```
+{
+	"stream": "btech",
+	"name": "aryan",
+	"gender": "male",
+	"dob": "02-10-2000",
+	"contact": "7041452458",
+	"email": "aryan@gmail.com"
+}
+```
 ### Response
 ```
 {
@@ -249,7 +262,7 @@ https://library-management-system-g6oa.onrender.com/api/v1/student/1
 ```
 https://library-management-system-g6oa.onrender.com/api/v1/student/1
 ```
-`body`
+`JSON`
 ```
 {
 	"stream": "bsc",
@@ -324,6 +337,10 @@ https://library-management-system-g6oa.onrender.com/api/v1/student
 ```
 https://library-management-system-g6oa.onrender.com/api/v1/student/1/uploadimage
 ```
+`Multipart`
+```
+attribute = studentImage    file = student.jpg
+```
 ### Response
 ```
 image uploaded successfully!
@@ -336,7 +353,140 @@ image uploaded successfully!
 ```
 https://library-management-system-g6oa.onrender.com/api/v1/book/1/uploadimage
 ```
+`Multipart`
+```
+attribute = bookImage    file = book.jpg
+```
 ### Response
 ```
 image uploaded successfully!
 ```
+
+## Issue new book
+
+### Request
+`GET`
+```
+https://library-management-system-g6oa.onrender.com/api/v1/student/1/issuebook/1
+```
+### Response
+```
+{
+	"id": 1,
+	"book": {
+		"id": 1,
+		"title": "Head first java",
+		"author": "Kathy Sierra",
+		"description": "This book is good for beginners...",
+		"imageUrl": "https://library-management-system-g6oa.onrender.com/api/v1/uploads/fea58567-eda9-4575-8e53-50ee0393c190.jpg",
+		"category": {
+			"id": 1,
+			"categoryName": "computer science",
+			"shortName": "CSE"
+		}
+	},
+	"issueDate": "27-01-2023",
+	"expiringDate": "01-02-2023",
+	"fine": 0
+}
+```
+
+## Get all issued books by student id
+
+### Request
+`GET`
+```
+https://library-management-system-g6oa.onrender.com/api/v1/student/1/issuebook
+```
+### Response
+```
+[
+	{
+		"id": 1,
+		"book": {
+			"id": 1,
+			"title": "Head first java",
+			"author": "Kathy Sierra",
+			"description": "This book is good for beginners...",
+			"imageUrl": "https://library-management-system-g6oa.onrender.com/api/v1/uploads/fea58567-eda9-4575-8e53-50ee0393c190.jpg",
+			"category": {
+				"id": 1,
+				"categoryName": "computer science",
+				"shortName": "CSE"
+			}
+		},
+		"issueDate": "27-01-2023",
+		"expiringDate": "01-02-2023",
+		"fine": 0
+	}
+]
+```
+
+## Get issued book by book id
+
+### Request
+`GET`
+```
+https://library-management-system-g6oa.onrender.com/api/v1/book/1/issuedto
+```
+### Response
+```
+{
+	"id": 1,
+	"book": {
+		"id": 1,
+		"title": "Head first java",
+		"author": "Kathy Sierra",
+		"description": "This book is good for beginners...",
+		"imageUrl": "https://library-management-system-g6oa.onrender.com/api/v1/uploads/fea58567-eda9-4575-8e53-50ee0393c190.jpg",
+		"category": {
+			"id": 1,
+			"categoryName": "computer science",
+			"shortName": "CSE"
+		}
+	},
+	"issueDate": "27-01-2023",
+	"expiringDate": "01-02-2023",
+	"fine": 0
+}
+```
+
+## Return issued book
+
+### Request
+`GET`
+```
+https://library-management-system-g6oa.onrender.com/api/v1/student/1/returnbook/1
+```
+### Response
+`STATUS 200`
+
+## Delete student
+
+### Request
+`DELETE`
+```
+https://library-management-system-g6oa.onrender.com/api/v1/student/1
+```
+### Response
+`STATUS 204`
+
+## Delete book
+
+### Request
+`DELETE`
+```
+https://library-management-system-g6oa.onrender.com/api/v1/book/1
+```
+### Response
+`STATUS 204`
+
+## Delete book category
+
+### Request
+`DELETE`
+```
+https://library-management-system-g6oa.onrender.com/api/v1/category/1
+```
+### Response
+`STATUS 204`
