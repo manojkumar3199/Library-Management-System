@@ -14,7 +14,27 @@ This system helps library manager to manage, organize, and keep constant track o
 
 # How to use it
 
-1. [Update book category](#Update-book-category)
+1. [Add new book category](#Add-new-book-category)
+2. [Get book category by id](#Get-book-category-by-id)
+3. [Update book category](#Update-book-category)
+4. [Get all book categories](#Get-all-book-categories)
+5. [Add new book](#Add-new-book)
+6. [Get book by id](#Get-book-by-id)
+7. [Update book](#Update-book)
+8. [Get all books](#Get-all-books)
+9. [Add new student](#Add-new-student)
+10. [Get student by id](#Get-student-by-id)
+11. [Update student](#Update-student)
+12. [Get all students](#Get-all-students)
+13. [Upload student image](#Upload-student-image)
+14. [Upload book image](#Upload-book-image)
+15. [Issue new book](#Issue-new-book)
+16. [Get all issued books by student id](#Get-all-issued-books-by-student-id)
+17. [Get issued book by book id](#Get-issued-book-by-book-id)
+18. [Return issued book](#Return-issued-book)
+19. [Delete student](#Delete-student)
+20. [Delete book](#Delete-book)
+21. [Delete book category](#Delete-book-category)
 
 ## Add new book category
 
