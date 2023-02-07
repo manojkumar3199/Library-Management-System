@@ -15,8 +15,6 @@ public interface CategoryService {
 
 	CategoryDto updateCategory(CategoryDto categoryDto, Long categoryId);
 
-	CategoryDto updateCategoryName(CategoryDto categoryDto, Long categoryId);
-
 	void deleteCategory(Long id) throws IOException;
 
 }

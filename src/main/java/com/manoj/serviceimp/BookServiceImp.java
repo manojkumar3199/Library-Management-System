@@ -79,7 +79,7 @@ public class BookServiceImp implements BookService {
 		Category category = categoryRepo.findById(categoryId).orElseThrow(
 				() -> new CustomResourceNotFoundException("category with id " + categoryId + " does't exist!"));
 
-		Optional<Book> bookExist = bookRepo.findByTitle(b.getTitle());
+		Optional<Book> bookExist = bookRepo.findByTitleIgnoreCase(b.getTitle());
 		if (bookExist.isPresent())
 			throw new ResourceDuplicateException(b.getTitle() + " already exist!");
 
@@ -100,23 +100,14 @@ public class BookServiceImp implements BookService {
 		Book savedBook = bookRepo.findById(bookId)
 				.orElseThrow(() -> new CustomResourceNotFoundException("book with id " + bookId + " does't exist!"));
 
+		Optional<Book> bookExist = bookRepo.findByTitleIgnoreCaseAndIdNot(b.getTitle(), bookId);
+		if (bookExist.isPresent())
+			throw new ResourceDuplicateException(b.getTitle() + " already exist!");
+
+		savedBook.setTitle(b.getTitle());
 		savedBook.setCategory(category);
 		savedBook.setAuthor(b.getAuthor());
 		savedBook.setDescription(b.getDescription());
-
-		return bookMapper.bookEntityToBookDto(bookRepo.save(savedBook));
-	}
-
-	@Override
-	public BookDto updateBookTitle(BookDto bookDto, Long bookId) {
-		Book savedBook = bookRepo.findById(bookId)
-				.orElseThrow(() -> new CustomResourceNotFoundException("book with id " + bookId + " does't exist!"));
-
-		Optional<Book> bookExist = bookRepo.findByTitle(bookDto.getTitle());
-		if (bookExist.isPresent())
-			throw new ResourceDuplicateException(bookDto.getTitle() + " already exist!");
-
-		savedBook.setTitle(bookDto.getTitle());
 
 		return bookMapper.bookEntityToBookDto(bookRepo.save(savedBook));
 	}

@@ -12,5 +12,7 @@ public interface CategoryRepo extends JpaRepository<Category, Long> {
 	@Query("FROM Category")
 	Set<Category> findAllCategory();
 
-	Optional<Category> findByCategoryName(String categoryName);
+	Optional<Category> findByCategoryNameIgnoreCase(String categoryName);
+
+	Optional<Category> findByCategoryNameIgnoreCaseAndIdNot(String categoryName, Long categoryId);
 }

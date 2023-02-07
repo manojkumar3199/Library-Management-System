@@ -60,11 +60,6 @@ public class BookController {
 		return service.updateBook(b, bookId, categoryId);
 	}
 
-	@PutMapping("/{bookId}/updatetitle")
-	public BookDto updateBookTitle(@Valid @RequestBody BookDto bookDto, @PathVariable("bookId") Long bookId) {
-		return service.updateBookTitle(bookDto, bookId);
-	}
-
 	@GetMapping("/{bookId}/issuedto")
 	public IssueBookDto getIssueBook(@PathVariable("bookId") Long bookId) {
 		return service.getIssueBook(bookId);

@@ -65,7 +65,7 @@ public class CategoryServiceImp implements CategoryService {
 
 	@Override
 	public CategoryDto saveCategory(CategoryDto c) {
-		Optional<Category> categoryExist = categoryRepo.findByCategoryName(c.getCategoryName());
+		Optional<Category> categoryExist = categoryRepo.findByCategoryNameIgnoreCase(c.getCategoryName());
 		if (categoryExist.isPresent())
 			throw new ResourceDuplicateException(c.getCategoryName() + " category already exist!");
 		return categoryMapper
@@ -77,21 +77,13 @@ public class CategoryServiceImp implements CategoryService {
 		Category savedCategory = categoryRepo.findById(categoryId).orElseThrow(
 				() -> new CustomResourceNotFoundException("category with id " + categoryId + " does't exist!"));
 
-		savedCategory.setShortName(categoryDto.getShortName());
-
-		return categoryMapper.categoryEntityToCategoryDto(categoryRepo.save(savedCategory));
-	}
-
-	@Override
-	public CategoryDto updateCategoryName(CategoryDto categoryDto, Long categoryId) {
-		Category savedCategory = categoryRepo.findById(categoryId).orElseThrow(
-				() -> new CustomResourceNotFoundException("category with id " + categoryId + " does't exist!"));
-
-		Optional<Category> categoryExist = categoryRepo.findByCategoryName(categoryDto.getCategoryName());
+		Optional<Category> categoryExist = categoryRepo
+				.findByCategoryNameIgnoreCaseAndIdNot(categoryDto.getCategoryName(), categoryId);
 		if (categoryExist.isPresent())
 			throw new ResourceDuplicateException(categoryDto.getCategoryName() + " category already exist!");
 
 		savedCategory.setCategoryName(categoryDto.getCategoryName());
+		savedCategory.setShortName(categoryDto.getShortName());
 
 		return categoryMapper.categoryEntityToCategoryDto(categoryRepo.save(savedCategory));
 	}

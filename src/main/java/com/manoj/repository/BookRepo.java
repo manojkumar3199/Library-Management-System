@@ -18,5 +18,7 @@ public interface BookRepo extends JpaRepository<Book, Long> {
 
 	void deleteAllByCategory(Category category);
 
-	Optional<Book> findByTitle(String title);
+	Optional<Book> findByTitleIgnoreCase(String title);
+
+	Optional<Book> findByTitleIgnoreCaseAndIdNot(String title, Long bookId);
 }

@@ -18,8 +18,6 @@ public interface BookService {
 
 	BookDto updateBook(BookDto b, Long bookId, Long categoryId);
 
-	BookDto updateBookTitle(BookDto bookDto, Long bookId);
-
 	void deleteBook(Long id) throws IOException;
 
 	IssueBookDto getIssueBook(Long bookId);
