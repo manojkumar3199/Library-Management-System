@@ -1,7 +1,9 @@
 package com.manoj.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +33,7 @@ public class StudentController {
 	private StudentService service;
 
 	@GetMapping("")
+	@ResponseStatus(code = HttpStatus.OK)
 	public List<StudentDto> getAllStudents(
 			@RequestParam(name = "pageSize", defaultValue = "10", required = false) Integer pageSize,
 			@RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
@@ -38,6 +41,7 @@ public class StudentController {
 	}
 
 	@GetMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
 	public StudentDto getStudent(@PathVariable("id") Long id) {
 		return service.getStudent(id);
 	}
@@ -55,21 +59,25 @@ public class StudentController {
 	}
 
 	@PutMapping("/{id}")
+	@ResponseStatus(code = HttpStatus.OK)
 	public StudentDto updateStudent(@Valid @RequestBody StudentDto s, @PathVariable("id") Long id) {
 		return service.updateStudent(s, id);
 	}
 
 	@GetMapping("/{studentId}/issuebook/{bookId}")
+	@ResponseStatus(code = HttpStatus.OK)
 	public IssueBookDto issueBook(@PathVariable("studentId") Long studentId, @PathVariable("bookId") Long bookId) {
 		return service.issueBook(studentId, bookId);
 	}
 
 	@GetMapping("/{studentId}/returnbook/{bookId}")
+	@ResponseStatus(code = HttpStatus.OK)
 	public void returnIssuedBook(@PathVariable("studentId") Long studentId, @PathVariable("bookId") Long bookId) {
 		service.returnIssuedBook(studentId, bookId);
 	}
 
 	@GetMapping("/{studentId}/issuebook")
+	@ResponseStatus(code = HttpStatus.OK)
 	public List<IssueBookDto> getAllIssueBooks(@PathVariable("studentId") Long studentId,
 			@RequestParam(name = "pageSize", defaultValue = "10", required = false) Integer pageSize,
 			@RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
@@ -77,10 +85,14 @@ public class StudentController {
 	}
 
 	@PostMapping("/{studentId}/uploadimage")
-	public String uploadImage(@PathVariable("studentId") Long studentId,
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public Map<String, Object> uploadImage(@PathVariable("studentId") Long studentId,
 			@RequestParam(name = "studentImage", required = true) MultipartFile studentImage)
 			throws IllegalStateException, IOException {
-		return service.uploadImage(studentId, studentImage);
+		String imageUrl = service.uploadImage(studentId, studentImage);
+		HashMap<String, Object> res = new HashMap<>();
+		res.put("imageUrl", imageUrl);
+		return res;
 	}
 
 }

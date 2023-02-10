@@ -232,7 +232,7 @@ public class StudentServiceImp implements StudentService {
 		savedStudent.setImageUrl(imageUrl);
 		studentRepo.save(savedStudent);
 
-		return "image uploaded successfully!";
+		return imageUrl;
 	}
 
 }

@@ -165,7 +165,7 @@ public class BookServiceImp implements BookService {
 		savedBook.setImageUrl(imageUrl);
 		bookRepo.save(savedBook);
 
-		return "image uploaded successfully!";
+		return imageUrl;
 	}
 
 }
