@@ -124,8 +124,10 @@ public class BookServiceImp implements BookService {
 					"this book is issued to student with id " + issueBook.get().getStudent().getId());
 		}
 
-		if (savedBook.getImage() != null)
-			Files.delete(Paths.get(uploadImagesDir + File.separator + savedBook.getImage()));
+		if (savedBook.getImage() != null) {
+//			Files.delete(Paths.get(uploadImagesDir + File.separator + savedBook.getImage()));
+			FileUtils.deleteQuietly(new File(uploadImagesDir + File.separator + savedBook.getImage()));
+		}
 
 		bookRepo.delete(savedBook);
 	}

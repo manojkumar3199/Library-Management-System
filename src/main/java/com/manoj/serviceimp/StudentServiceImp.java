@@ -106,8 +106,10 @@ public class StudentServiceImp implements StudentService {
 			throw new ForeignKeyConstraintException(
 					"can't delete the student with id " + studentId + "! student must return the issued books first!");
 
-		if (savedStudent.getImage() != null)
-			Files.delete(Paths.get(uploadImagesDir + File.separator + savedStudent.getImage()));
+		if (savedStudent.getImage() != null) {
+//			Files.delete(Paths.get(uploadImagesDir + File.separator + savedStudent.getImage()));
+			FileUtils.deleteQuietly(new File(uploadImagesDir + File.separator + savedStudent.getImage()));
+		}
 
 		studentRepo.delete(savedStudent);
 	}
