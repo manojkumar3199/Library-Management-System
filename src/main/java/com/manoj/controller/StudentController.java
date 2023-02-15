@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.manoj.payload.IssueBookDto;
 import com.manoj.payload.StudentDto;
 import com.manoj.service.StudentService;
@@ -66,8 +70,18 @@ public class StudentController {
 
 	@GetMapping("/{studentId}/issuebook/{bookId}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public IssueBookDto issueBook(@PathVariable("studentId") Long studentId, @PathVariable("bookId") Long bookId) {
-		return service.issueBook(studentId, bookId);
+	public MappingJacksonValue issueBook(@PathVariable("studentId") Long studentId,
+			@PathVariable("bookId") Long bookId) {
+		IssueBookDto issueBook = service.issueBook(studentId, bookId);
+		// applying filter
+		FilterProvider filters = new SimpleFilterProvider()
+				.addFilter("IssueBookDto",
+						SimpleBeanPropertyFilter.filterOutAllExcept("id", "book", "issueDate", "expiringDate", "fine"))
+				.addFilter("BookDto", SimpleBeanPropertyFilter.filterOutAllExcept("id", "title", "author",
+						"description", "imageUrl", "category"));
+		MappingJacksonValue mapping = new MappingJacksonValue(issueBook);
+		mapping.setFilters(filters);
+		return mapping;
 	}
 
 	@GetMapping("/{studentId}/returnbook/{bookId}")
@@ -78,10 +92,19 @@ public class StudentController {
 
 	@GetMapping("/{studentId}/issuebook")
 	@ResponseStatus(code = HttpStatus.OK)
-	public List<IssueBookDto> getAllIssueBooks(@PathVariable("studentId") Long studentId,
+	public MappingJacksonValue getAllIssueBooks(@PathVariable("studentId") Long studentId,
 			@RequestParam(name = "pageSize", defaultValue = "10", required = false) Integer pageSize,
 			@RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
-		return service.getAllIssueBooks(studentId, pageSize, pageNumber);
+		List<IssueBookDto> issuedBooks = service.getAllIssueBooks(studentId, pageSize, pageNumber);
+		// applying filter
+		FilterProvider filters = new SimpleFilterProvider()
+				.addFilter("IssueBookDto",
+						SimpleBeanPropertyFilter.filterOutAllExcept("id", "book", "issueDate", "expiringDate", "fine"))
+				.addFilter("BookDto", SimpleBeanPropertyFilter.filterOutAllExcept("id", "title", "author",
+						"description", "imageUrl", "category"));
+		MappingJacksonValue mapping = new MappingJacksonValue(issuedBooks);
+		mapping.setFilters(filters);
+		return mapping;
 	}
 
 	@PostMapping("/{studentId}/uploadimage")

@@ -106,6 +106,9 @@ public class StudentServiceImp implements StudentService {
 			throw new ForeignKeyConstraintException(
 					"can't delete the student with id " + studentId + "! student must return the issued books first!");
 
+		// check
+		System.out.println("uploadImagesDir: " + uploadImagesDir);
+
 		if (savedStudent.getImage() != null) {
 //			Files.delete(Paths.get(uploadImagesDir + File.separator + savedStudent.getImage()));
 			FileUtils.deleteQuietly(new File(uploadImagesDir + File.separator + savedStudent.getImage()));
@@ -152,7 +155,13 @@ public class StudentServiceImp implements StudentService {
 		issueBookEntity.setExpiringDate(dtf.format(currentDate.plusDays(5)));
 		issueBookEntity.setFine(0);
 
-		return issueBookMapper.issueBookEntityToIssueBookDto(issueBookRepo.save(issueBookEntity));
+		IssueBookDto issueBookDto = issueBookMapper.issueBookEntityToIssueBookDto(issueBookRepo.save(issueBookEntity));
+
+		// update reserved property of savedBook
+		b.setReserved(true);
+		bookRepo.save(b);
+
+		return issueBookDto;
 	}
 
 	@Override
@@ -181,6 +190,9 @@ public class StudentServiceImp implements StudentService {
 
 		if (issuedBook != null) {
 			issueBookRepo.delete(issuedBook);
+			// update reserved property of savedBook
+			savedBook.setReserved(false);
+			bookRepo.save(savedBook);
 		} else {
 			throw new CustomResourceNotFoundException("book with id " + bookId + " is not issued to you!");
 		}

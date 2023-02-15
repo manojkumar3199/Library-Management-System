@@ -1,5 +1,7 @@
 package com.manoj.payload;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonFilter("BookDto")
 public class BookDto {
 	private Long id;
 
@@ -27,6 +30,8 @@ public class BookDto {
 	private String description;
 
 	private String imageUrl;
+	
+	private Boolean reserved = false;
 
 	private CategoryDto category;
 }

@@ -124,6 +124,9 @@ public class BookServiceImp implements BookService {
 					"this book is issued to student with id " + issueBook.get().getStudent().getId());
 		}
 
+		// check
+		System.out.println("uploadImagesDir: " + uploadImagesDir);
+
 		if (savedBook.getImage() != null) {
 //			Files.delete(Paths.get(uploadImagesDir + File.separator + savedBook.getImage()));
 			FileUtils.deleteQuietly(new File(uploadImagesDir + File.separator + savedBook.getImage()));
@@ -168,6 +171,23 @@ public class BookServiceImp implements BookService {
 		bookRepo.save(savedBook);
 
 		return imageUrl;
+	}
+
+	@Override
+	public List<BookDto> getBooksByCategoryId(Long categoryId, Integer pageSize, Integer pageNumber) {
+		Category category = categoryRepo.findById(categoryId).orElseThrow(
+				() -> new CustomResourceNotFoundException("category with id " + categoryId + " does't exist!"));
+
+		Pageable p = PageRequest.of(pageNumber, pageSize);
+
+		Page<Book> booksPage = bookRepo.customFindByCategory(category, p);
+		System.out.println(booksPage);
+		List<Book> books = booksPage.getContent();
+
+		if (books.isEmpty())
+			throw new CustomResourceNotFoundException("books list is empty!");
+
+		return bookMapper.bookEntityListToBookDtoList(books);
 	}
 
 }

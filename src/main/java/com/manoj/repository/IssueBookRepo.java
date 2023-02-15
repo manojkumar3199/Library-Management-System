@@ -20,4 +20,7 @@ public interface IssueBookRepo extends JpaRepository<IssueBook, Long> {
 
 	@Query(value = "FROM IssueBook AS i WHERE i.student = :savedStudent")
 	public Page<IssueBook> customFindByStudent(@Param("savedStudent") Student student, Pageable pageable);
+
+//	@Query(value = "FROM IssueBook")
+//	public Page<IssueBook> customFindAll(Pageable pageable);
 }

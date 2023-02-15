@@ -24,4 +24,6 @@ public interface BookService {
 
 	String uploadImage(Long bookId, MultipartFile bookImage) throws IllegalStateException, IOException;
 
+	List<BookDto> getBooksByCategoryId(Long categoryId, Integer pageSize, Integer pageNumber);
+
 }

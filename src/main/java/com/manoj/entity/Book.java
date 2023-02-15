@@ -46,6 +46,9 @@ public class Book {
 	@Column(name = "book_image_url")
 	private String imageUrl;
 
+	@Column
+	private Boolean reserved;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id")
 	private Category category;

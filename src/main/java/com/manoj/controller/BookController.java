@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.manoj.payload.BookDto;
 import com.manoj.payload.IssueBookDto;
 import com.manoj.service.BookService;
@@ -67,8 +71,14 @@ public class BookController {
 
 	@GetMapping("/{bookId}/issuedto")
 	@ResponseStatus(code = HttpStatus.OK)
-	public IssueBookDto getIssueBook(@PathVariable("bookId") Long bookId) {
-		return service.getIssueBook(bookId);
+	public MappingJacksonValue getIssueBook(@PathVariable("bookId") Long bookId) {
+		IssueBookDto issueBook = service.getIssueBook(bookId);
+		// applying filter
+		FilterProvider filters = new SimpleFilterProvider().addFilter("IssueBookDto",
+				SimpleBeanPropertyFilter.filterOutAllExcept("id", "student", "issueDate", "expiringDate", "fine"));
+		MappingJacksonValue mapping = new MappingJacksonValue(issueBook);
+		mapping.setFilters(filters);
+		return mapping;
 	}
 
 	@PostMapping("/{bookId}/uploadimage")
@@ -82,4 +92,11 @@ public class BookController {
 		return res;
 	}
 
+	@GetMapping("/category/{categoryId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<BookDto> getBookByCategoryId(@PathVariable("categoryId") Long categoryId,
+			@RequestParam(name = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+			@RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber) {
+		return service.getBooksByCategoryId(categoryId, pageSize, pageNumber);
+	}
 }

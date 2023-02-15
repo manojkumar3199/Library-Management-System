@@ -1,6 +1,6 @@
 package com.manoj.payload;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,10 +13,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonFilter("IssueBookDto")
 public class IssueBookDto {
 	private Long id;
 
-	@JsonManagedReference
 	private BookDto book;
 
 	private String issueDate;
@@ -24,4 +24,6 @@ public class IssueBookDto {
 	private String expiringDate;
 
 	private Integer fine;
+
+	private StudentDto student;
 }

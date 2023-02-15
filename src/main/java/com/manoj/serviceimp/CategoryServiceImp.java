@@ -2,12 +2,10 @@ package com.manoj.serviceimp;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -93,7 +91,7 @@ public class CategoryServiceImp implements CategoryService {
 		Category savedCategory = categoryRepo.findById(id)
 				.orElseThrow(() -> new CustomResourceNotFoundException("category with id " + id + " does't exist!"));
 
-		Set<Book> books = bookRepo.findByCategory(savedCategory);
+		List<Book> books = bookRepo.findByCategory(savedCategory);
 		books.forEach((book) -> {
 			Optional<IssueBook> issueBook = issueBookRepo.findByBook(book);
 			if (issueBook.isPresent()) {
@@ -104,10 +102,15 @@ public class CategoryServiceImp implements CategoryService {
 			}
 		});
 
+		// check
+		System.out.println("uploadImagesDir: " + uploadImagesDir);
+
 		if (!books.isEmpty()) {
 			for (Book book : books) {
-				if (book.getImage() != null)
-					Files.delete(Paths.get(uploadImagesDir + File.separator + book.getImage()));
+				if (book.getImage() != null) {
+//					Files.delete(Paths.get(uploadImagesDir + File.separator + book.getImage()));
+					FileUtils.deleteQuietly(new File(uploadImagesDir + File.separator + book.getImage()));
+				}
 				bookRepo.delete(book);
 			}
 		}
