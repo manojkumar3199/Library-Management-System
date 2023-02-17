@@ -78,7 +78,7 @@ public class StudentController {
 				.addFilter("IssueBookDto",
 						SimpleBeanPropertyFilter.filterOutAllExcept("id", "book", "issueDate", "expiringDate", "fine"))
 				.addFilter("BookDto", SimpleBeanPropertyFilter.filterOutAllExcept("id", "title", "author",
-						"description", "imageUrl", "category"));
+						"description", "imageUrl", "reserved", "category"));
 		MappingJacksonValue mapping = new MappingJacksonValue(issueBook);
 		mapping.setFilters(filters);
 		return mapping;
@@ -101,7 +101,7 @@ public class StudentController {
 				.addFilter("IssueBookDto",
 						SimpleBeanPropertyFilter.filterOutAllExcept("id", "book", "issueDate", "expiringDate", "fine"))
 				.addFilter("BookDto", SimpleBeanPropertyFilter.filterOutAllExcept("id", "title", "author",
-						"description", "imageUrl", "category"));
+						"description", "imageUrl", "reserved", "category"));
 		MappingJacksonValue mapping = new MappingJacksonValue(issuedBooks);
 		mapping.setFilters(filters);
 		return mapping;

@@ -150,16 +150,17 @@ public class StudentServiceImp implements StudentService {
 		LocalDate currentDate = LocalDate.now();
 
 		issueBookEntity.setStudent(s);
-		issueBookEntity.setBook(b);
 		issueBookEntity.setIssueDate(dtf.format(currentDate));
 		issueBookEntity.setExpiringDate(dtf.format(currentDate.plusDays(5)));
 		issueBookEntity.setFine(0);
 
-		IssueBookDto issueBookDto = issueBookMapper.issueBookEntityToIssueBookDto(issueBookRepo.save(issueBookEntity));
-
 		// update reserved property of savedBook
 		b.setReserved(true);
 		bookRepo.save(b);
+
+		issueBookEntity.setBook(b);
+
+		IssueBookDto issueBookDto = issueBookMapper.issueBookEntityToIssueBookDto(issueBookRepo.save(issueBookEntity));
 
 		return issueBookDto;
 	}
