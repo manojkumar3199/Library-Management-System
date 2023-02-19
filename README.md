@@ -36,6 +36,7 @@ This system helps library manager to manage, organize, and keep constant track o
 20. [Delete book](#Delete-book)
 21. [Delete book category](#Delete-book-category)
 22. [Get All Issued Books](#Get-All-Issued-Books)
+23. [Get Library Stats](#Get-Library-Stats)
 
 ## Add new book category
 
