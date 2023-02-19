@@ -35,6 +35,7 @@ This system helps library manager to manage, organize, and keep constant track o
 19. [Delete student](#Delete-student)
 20. [Delete book](#Delete-book)
 21. [Delete book category](#Delete-book-category)
+22. [Get All Issued Books](#Get-All-Issued-Books)
 
 ## Add new book category
 
@@ -510,3 +511,62 @@ https://library-management-system-g6oa.onrender.com/api/v1/category/1
 ```
 ### Response
 `STATUS 204`
+
+## Get All Issued Books
+
+### Request
+`GET`
+```
+https://library-management-system-g6oa.onrender.com/api/v1/issuebook
+```
+### Response
+```
+[
+	{
+		"id": 61,
+		"book": {
+			"id": 1,
+			"title": "The Martian",
+			"author": "Andy Weir",
+			"description": "The story follows an American astronaut, Mark Watney, as he becomes stranded alone on Mars in 2035 and must improvise in order to survive.",
+			"imageUrl": null,
+			"reserved": true,
+			"category": {
+				"id": 2,
+				"categoryName": "Fiction",
+				"shortName": "FIC"
+			}
+		},
+		"issueDate": "19-02-2023",
+		"expiringDate": "24-02-2023",
+		"fine": 0,
+		"student": {
+			"id": 1,
+			"stream": "Bsc",
+			"name": "Akash Sathi",
+			"gender": "male",
+			"dob": "29-11-1998",
+			"contact": "9857478547",
+			"email": "akashsathi@gmail.com",
+			"imageUrl": null
+		}
+	}
+]
+```
+
+## Get Library Stats
+
+### Request
+`GET`
+```
+https://library-management-system-g6oa.onrender.com/api/v1/stats
+```
+### Response
+```
+{
+	"totalStudents": 2,
+	"totalCategories": 2,
+	"totalBooks": 2,
+	"totalIssuedBooks": 1
+}
+```
